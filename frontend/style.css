@@ -1,0 +1,244 @@
+:root {
+  --bg: #0d0d12;
+  --panel: #16161f;
+  --panel-2: #1e1e2a;
+  --line: #2a2a3a;
+  --text: #f2f2f7;
+  --muted: #9a9ab0;
+  --accent: #e8b4c8;
+  --accent-strong: #f0cadc;
+  --ok: #6fd39a;
+  --warn: #e8c86f;
+  --err: #e88a8a;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon { color: var(--accent); font-size: 1.4rem; }
+.brand h1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.02em; }
+
+.status-cluster { display: flex; gap: 8px; }
+
+.status-pill {
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+}
+.status-ok { color: var(--ok); border-color: var(--ok); }
+.status-warn { color: var(--warn); border-color: var(--warn); }
+.status-err { color: var(--err); border-color: var(--err); }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.stage { display: flex; flex-direction: column; gap: 14px; }
+
+.viewport {
+  position: relative;
+  background: #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+}
+
+#webcam, #overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+#overlay { pointer-events: none; }
+
+.viewport-hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  background: var(--panel);
+}
+
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scan 2s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% { top: 5%; opacity: 0.2; }
+  50% { top: 90%; opacity: 1; }
+  100% { top: 5%; opacity: 0.2; }
+}
+
+.controls { display: flex; gap: 10px; justify-content: center; }
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.15s;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn:not(:disabled):hover { transform: translateY(-1px); }
+
+.btn-primary { background: var(--accent); color: #1a1020; }
+.btn-secondary { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+
+.fit-profile {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+}
+.fit-profile h3 { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+.fit-profile-body { font-size: 0.95rem; line-height: 1.6; }
+
+.wardrobe {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+.wardrobe h2 { font-size: 1rem; margin-bottom: 12px; }
+
+.size-badge {
+  background: var(--accent);
+  color: #1a1020;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.wardrobe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.garment-card {
+  background: var(--panel-2);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.garment-card:hover { transform: translateY(-2px); }
+.garment-card.selected { border-color: var(--accent); }
+.garment-card img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: #fff; }
+.garment-card .g-name { font-size: 0.75rem; padding: 8px; color: var(--muted); text-align: center; }
+
+.empty-msg { grid-column: 1 / -1; color: var(--muted); font-size: 0.85rem; text-align: center; padding: 30px 10px; }
+.empty-msg code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  z-index: 50;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal-content {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  max-width: min(90vw, 720px);
+}
+.modal-content img { max-width: 100%; max-height: 75vh; border-radius: 10px; display: block; }
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+.snap-caption { margin-top: 10px; text-align: center; color: var(--muted); font-size: 0.9rem; }
+
+.measure-grid { display: grid; gap: 6px; margin-bottom: 10px; }
+.measure-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9rem;
+}
+.measure-row span { color: var(--muted); }
+.conf-line { font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; }
+.conf-high { color: var(--ok); }
+.conf-med { color: var(--warn); }
+.conf-low { color: var(--err); }
+.note { font-size: 0.75rem; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .wardrobe { position: static; }
+}

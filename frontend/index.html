@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Fitroom</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon">◈</span>
+      <h1>Virtual Fitroom</h1>
+    </div>
+    <div class="status-cluster">
+      <span id="gpu-status" class="status-pill status-unknown">GPU checking…</span>
+      <span id="camera-status" class="status-pill status-unknown">Camera idle</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <div class="viewport">
+        <video id="webcam" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div id="viewport-hint" class="viewport-hint">Starting camera…</div>
+        <div id="scan-line" class="scan-line hidden"></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-scan" class="btn btn-secondary" disabled>Measure me</button>
+        <button id="btn-snap" class="btn btn-primary" disabled>Snap</button>
+        <button id="btn-clear" class="btn btn-ghost" disabled>Clear dress</button>
+      </div>
+
+      <div id="fit-profile" class="fit-profile hidden">
+        <h3>Your fit profile</h3>
+        <div id="fit-profile-body" class="fit-profile-body">Not measured yet</div>
+      </div>
+    </section>
+
+    <aside class="wardrobe">
+      <h2>Wardrobe</h2>
+      <div id="size-badge" class="size-badge hidden"></div>
+      <div id="wardrobe-grid" class="wardrobe-grid">
+        <p class="empty-msg">No garments yet — add images to <code>wardrobe/</code></p>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <div id="snap-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="snap-close" class="modal-close">×</button>
+      <img id="snap-result" alt="Try-on result" />
+      <p id="snap-caption" class="snap-caption"></p>
+    </div>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
